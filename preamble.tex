@@ -17,7 +17,14 @@
 \usepackage{appendix}                   %appendices
 \setcounter{tocdepth}{1}                %level of detail in the table of contents
 
+
 %-----------MATH, TABULAR AND GRAPHICS PACKAGES
+\usepackage[
+    backend=biber,
+    style=alphabetic,
+    sorting=ynt
+]{biblatex}
+\addbibresource{biblio.bib}
 \usepackage{amsfonts}                   %extra fonts in math mode
 \usepackage{slashed}                    %for Feynman slash notation
 \usepackage{bm}                         %for bold math symbols
@@ -30,6 +37,7 @@
 \usepackage{sidecap}                    %side captions
 \usepackage[cdot,mediumqspace,amssymb]{SIunits}
                                         %include SI units package
+
 
 %-----------LISTINGS PACKAGE AND CODE INCLUSION
 \usepackage{listings}        
