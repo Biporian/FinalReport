@@ -1,10 +1,19 @@
-\section{Introduction}\label{ch:introduction}
+\chapter{Introduction}\label{ch:introduction}
 
-Australian energy prices are unremarkable, both in our minds and in scale. Reserved for the eyes of energy retailers, the wholesale price averaged less than $\$100$ in all states that the National Energy Market serviced in the last quarter. \cite{aercharts} Within short time frames, the regional price can jump by one to two orders of magnitude, before it is hard capped by the market regulator. Such extrema are the driving force behind the market's economic actors - retailers who seek to insure themselves against paying such high prices, and generators who will vary generation on \emph{price spike} forecasts. The nature of this report is to answer such: \emph{Given everything observable at the end of a dispatch interval, how well can we predict that the price will be above \$300/MWh some moments later?} 
+Australian energy prices are unremarkable. Reserved for the eyes of energy retailers, the wholesale price averaged less than $\$100$ in all states that the National Energy Market serviced in the last quarter \cite{aercharts}, but an average isn't the kind of statistic that motivates. Instead, within short time frames, the regional price can jump by one to two orders of magnitude before it is hard capped by the Australian Energy Market Operator (AEMO), and such extrema are the driving force behind the market - retailers who seek to insure themselves against paying such high prices, and generators who will vary generation on \emph{price spike} forecasts.
+ The nature of this report is to answer such: \emph{Given everything observable at the end of a dispatch interval, how well can we predict that the price will be above \$300/MWh some moments later?} 
 
-\subsection{The National Electricity Market}\label{sec:NEM}
+\section{The National Electricity Market}\label{sec:NEM}
+The National Electricity Market (NEM) is both the power generation grid and the wholesale electricity market in New South Wales, the Australian Capital Territory, Queensland, South Australia, Victoria and Tasmania, managed by the AEMO. Every five minute the AEMO runs the NEM dispatch engine, which receives submissions of the price and quantity of electricity that generators are willing to provide, and balances it against the demands of the market to minimise the aggregated cost across generators \cite{aemcmarkets}. Prices in the market are bound by a floor of -\$1000/Mwh, and a market price cap of \$23,200/Mwh for the 2026 financial year. 
 
-\subsection{Price Spikes}\label{sec:pricespike}
-Why do we define the threshold to be \$300/MWh? In some ways it is arbitrary - it is no longer the administered price cap \cite{aemc2026}, and it doesn't compare to the most extreme prices that are reached. However, it was chosen because the threshold is crossed often enough, and also because it is the price level of the standard cap contracts - the call option retail energy providers purchase to insure against risk. \cite{aemcmarkets} 
+\section{Price Spikes and Horizons}\label{sec:pricespike}
+Why do we define the threshold to be \$300/MWh? In some ways it is arbitrary - it is no longer the administered price cap \cite{aemc2026}, and it doesn't compare to the most extreme prices that are reached. However, it was chosen because the threshold is crossed often enough - 2211 times for the time period we examine- and also because it is the price level of the standard cap contracts - the call option retail energy providers purchase to insure against risk. \cite{aemcmarkets}. This means that if prices rise about \$300/Mwh, the owner of the cap contract doesn't pay anymore than that \$300 limit. 
 
-\subsection{Aim}\label{sec:aim}
+
+
+\section{Aim}\label{sec:aim}
+ Our goal is to predict a price spike in some time horizon, and we've chosen the horizons of 5 minutes, 30 minutes, and 2 hours to assess the capabilities of our model. The most important one is the 30 minute horizon. The AEMO application guide for new power generators ask for specificity of "whether scheduled generating unit sets are of ‘Fast’ or ‘Slow’ start-type. Fast start generating units can synchronise and increase generation within 30 minutes of receiving an instruction from AEMO. Slow start generating units cannot do this." \cite{aemoapplication}. Thus, the ability to predict spikes 30 minutes into the future is of importance to not just generators to have an expectation of production load, but also to the AEMO in order to issue those instructions to appease demand. 
+
+ In strict language, we want to create a probablistic forecast of \\
+ $$p_{t}^h = P(S_{t+h}|\mathcal{F}_t)$$,
+ at time t, where h is the horizon from 5 minutes to 2 hours. $\mathcal{F}_t$ represents all the information available before and up to the time t, to maximise precision, rather than accuracy, as spikes are a rare event. 
